@@ -21,7 +21,7 @@ public class FlightEndpoint {
     private final FlightFacade flightFacade;
 
     @GetMapping
-    public Mono<Page<FlightRepresentation>> getAllFlights(@PageableDefault(page = 1, size = 6, sort = { "price" }) Pageable pageable) {
+    public Mono<Page<FlightRepresentation>> getAllFlights(@PageableDefault(page = 0, size = 6, sort = { "price" }) Pageable pageable) {
         return flightFacade.getAllFlights(pageable);
     }
     
