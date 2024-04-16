@@ -1,11 +1,16 @@
 package technical.test.renderer.clients;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import technical.test.renderer.properties.TechnicalApiProperties;
+import technical.test.renderer.viewmodels.AirportViewModel;
+import technical.test.renderer.viewmodels.FlightViewModel;
 import technical.test.renderer.viewmodels.PageViewModel;
 
 @Component
@@ -19,12 +24,30 @@ public class TechnicalApiClient {
         this.technicalApiProperties = technicalApiProperties;
         this.webClient = webClientBuilder.build();
     }
-
-    public Mono<PageViewModel> getFlights() {
+    
+    public Mono<PageViewModel> getFlights(int page) {
         return webClient
                 .get()
-                .uri(technicalApiProperties.getUrl() + technicalApiProperties.getFlightPath())
+                .uri(technicalApiProperties.getUrl() + technicalApiProperties.getFlightPath() + "?page=" + page)
                 .retrieve()
                 .bodyToMono(PageViewModel.class);
+    }
+    
+    public Flux<AirportViewModel> getAirports() {
+    	return webClient
+    			.get()
+    			.uri(technicalApiProperties.getUrl() + technicalApiProperties.getAirportPath())
+    			.retrieve()
+    			.bodyToFlux(AirportViewModel.class);
+    }
+    
+    public Mono<FlightViewModel> createFlight(Mono<FlightViewModel> flight) {
+    	 return webClient
+    			.post()
+    			.uri(technicalApiProperties.getUrl() + technicalApiProperties.getFlightPath())
+    			.contentType(MediaType.APPLICATION_JSON)
+    			.body(BodyInserters.fromPublisher(flight, FlightViewModel.class))
+    			.retrieve()
+    			.bodyToMono(FlightViewModel.class);
     }
 }

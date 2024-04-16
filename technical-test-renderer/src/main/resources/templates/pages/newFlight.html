@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recherche de Vols</title>
+    <title>Nouveau Vol</title>
     <style>
         body {
             margin: 0;
@@ -74,42 +74,27 @@
 </head>
 <body>
 <header>
-    <h1>Recherche de Vols</h1>
+    <h1>Créer un nouveau Vol</h1>
 </header>
 
 <section>
-    <!-- Contenu de la recherche de vols -->
-    <h2>Bienvenue sur notre site de recherche de vols</h2>
-    <p>Commencez votre aventure en trouvant les meilleurs vols disponibles.</p>
-    <!-- Ajoutez ici le formulaire de recherche de vols ou d'autres éléments pertinents -->
-    <ul>
-        <table>
-            <tr>
-                <th scope="col">Départ de</th>
-                <th scope="col">Arrivée à</th>
-                <th scope="col">Prix</th>
-                <th scope="col">Heure de départ</th>
-                <th scope="col">Heure d'arrivée</th>
-                <th scope="col">Photo</th>
-            </tr>
-            <tr th:each="flight : ${page.content}">
-                <th th:text="${flight.origin.name}"></th>
-                <th th:text="${flight.destination.name}"></th>
-                <th th:text="${flight.price}"></th>
-                <th th:text="${flight.departure}"></th>
-                <th th:text="${flight.arrival}"></th>
-                <th><img th:src="${flight.image}"></img></th>
-            </tr>
-        </table>
-    </ul>
-    
-    <div th:if="${!page.first}">
-		<a th:href="@{/(page=${page.number - 1})}" > < Page précedente</a>
-	</div>
-	<!-- page X sur X, goto page 1 / max-->
-	<div th:if="${!page.last}">
-		<a th:href="@{/(page=${page.number + 1})}" >  Page suivante ></a>
-	</div>
+	<form action="#" th:action="@{/create}" th:object="${flight}" method="post">
+		<p>Heure de départ : <input type="datetime-local" th:field="*{departure}" /></p>
+		<p>Heure d'arrivée ': <input type="datetime-local" th:field="*{arrival}" /></p>
+		<p>Prix : <input type="number" th:field="*{price}" /></p>
+		<p>Départ : 
+			<select th:field="*{origin.iata}">
+				<option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name}"></option>
+			</select>
+		</p>
+		<p>Arrivée : 
+			<select th:field="*{destination.iata}">
+				<option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name}"></option>
+			</select>	
+		</p>
+		<p>Lien de l'image de couverture : <input type="url" th:field="*{image}" /></p>
+		<p><input type="submit" value="Valider" /> <input type="reset" value="Réinitialiser" /></p>
+	</form>
 </section>
 
 <footer>

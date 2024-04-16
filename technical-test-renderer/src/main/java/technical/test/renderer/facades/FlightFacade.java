@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import reactor.core.publisher.Mono;
 import technical.test.renderer.services.FlightService;
+import technical.test.renderer.viewmodels.FlightViewModel;
 import technical.test.renderer.viewmodels.PageViewModel;
 
 @Component
@@ -15,7 +16,11 @@ public class FlightFacade {
         this.flightService = flightService;
     }
 
-    public Mono<PageViewModel> getFlights() {
-        return this.flightService.getFlights();
+    public Mono<PageViewModel> getFlights(int page) {
+        return this.flightService.getFlights(page);
+    }
+    
+    public Mono<FlightViewModel> createFlight(Mono<FlightViewModel> flight) {
+    	return this.flightService.createFlight(flight);
     }
 }

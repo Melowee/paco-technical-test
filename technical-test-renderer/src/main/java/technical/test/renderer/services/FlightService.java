@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import reactor.core.publisher.Mono;
 import technical.test.renderer.clients.TechnicalApiClient;
+import technical.test.renderer.viewmodels.FlightViewModel;
 import technical.test.renderer.viewmodels.PageViewModel;
 
 @Service
@@ -14,7 +15,11 @@ public class FlightService {
         this.technicalApiClient = technicalApiClient;
     }
 
-    public Mono<PageViewModel> getFlights() {
-        return this.technicalApiClient.getFlights();
+    public Mono<PageViewModel> getFlights(int page) {
+        return this.technicalApiClient.getFlights(page);
+    }
+    
+    public Mono<FlightViewModel> createFlight(Mono<FlightViewModel> flight) {
+    	return this.technicalApiClient.createFlight(flight);
     }
 }
