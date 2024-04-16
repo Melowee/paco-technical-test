@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import technical.test.renderer.facades.FlightFacade;
 
@@ -21,7 +23,7 @@ public class TechnicalController {
 
     @GetMapping
     public Mono<String> getMarketPlaceReturnCouponPage(final Model model) {
-        model.addAttribute("flights", this.flightFacade.getFlights());
+        model.addAttribute("flights", this.flightFacade.getFlights().flatMapMany(page -> Flux.fromIterable(page.getContent())));
         return Mono.just("pages/index");
     }
 }

@@ -1,9 +1,10 @@
 package technical.test.renderer.facades;
 
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Flux;
+
+import reactor.core.publisher.Mono;
 import technical.test.renderer.services.FlightService;
-import technical.test.renderer.viewmodels.FlightViewModel;
+import technical.test.renderer.viewmodels.PageViewModel;
 
 @Component
 public class FlightFacade {
@@ -14,7 +15,7 @@ public class FlightFacade {
         this.flightService = flightService;
     }
 
-    public Flux<FlightViewModel> getFlights() {
+    public Mono<PageViewModel> getFlights() {
         return this.flightService.getFlights();
     }
 }
