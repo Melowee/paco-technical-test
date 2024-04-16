@@ -27,7 +27,7 @@ public class FlightFacade {
 
 	public Mono<Page<FlightRepresentation>> getAllFlights(Pageable pageable) {
 		return flightService.getAllFlights(pageable)
-				.flatMap(flightRecord -> airportService.findByIataCode(flightRecord.getOrigin())
+				.flatMapSequential(flightRecord -> airportService.findByIataCode(flightRecord.getOrigin())
 						.zipWith(airportService.findByIataCode(flightRecord.getDestination())).flatMap(tuple -> {
 							AirportRecord origin = tuple.getT1();
 							AirportRecord destination = tuple.getT2();
@@ -38,7 +38,7 @@ public class FlightFacade {
 						}))
 				.collectList()
 				.zipWith(this.flightService.getCount())
-				.map(flights -> new PageImpl<FlightRepresentation>(flights.getT1(), pageable, flights.getT2()));
+				.map(data -> new PageImpl<FlightRepresentation>(data.getT1(), pageable, data.getT2()));
 	}
 
 	public Mono<FlightRepresentation> createFlight(Mono<FlightRepresentation> flight) {
