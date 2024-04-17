@@ -44,10 +44,6 @@ public class TechnicalController {
     		model.addAttribute("isLastPage", pageViewModel.isLast());
     		return Mono.just("pages/index");
     	});
-    	
-
-        
-        
     }
     
     @GetMapping("/create")

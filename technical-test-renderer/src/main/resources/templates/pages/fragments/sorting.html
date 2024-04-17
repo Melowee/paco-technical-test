@@ -1,5 +1,9 @@
 <th scope="col" th:fragment="sorting(field, label)">
-	<a th:href="@{/(page=${currentPage},sort=${field})}">
+	<a th:href="@{/(page=${currentPage},sort=${field == sortField && sortDirection == 'ASC' ? field + ',desc' : field})}">
 		[[${label}]]
 	</a>
+	
+	<span th:if="${sortField == field}">
+		[[${sortDirection == 'ASC' ? '↑' : '↓'}]]
+	</span>
 </th>
