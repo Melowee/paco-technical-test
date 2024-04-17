@@ -25,10 +25,11 @@ public class TechnicalApiClient {
         this.webClient = webClientBuilder.build();
     }
     
-    public Mono<PageViewModel> getFlights(int page) {
+    public Mono<PageViewModel> getFlights(int page, String sort) {
         return webClient
                 .get()
-                .uri(technicalApiProperties.getUrl() + technicalApiProperties.getFlightPath() + "?page=" + page)
+                .uri(technicalApiProperties.getUrl() + technicalApiProperties.getFlightPath()
+                + "?page=" + page + "&sort=" + sort)
                 .retrieve()
                 .bodyToMono(PageViewModel.class);
     }

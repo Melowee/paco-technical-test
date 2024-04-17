@@ -1,0 +1,4 @@
+<a th:fragment="paging(pageNum, label)"
+	th:href="@{/(page=${pageNum},sort=${sortField})}">
+	[[${label}]]
+</a>

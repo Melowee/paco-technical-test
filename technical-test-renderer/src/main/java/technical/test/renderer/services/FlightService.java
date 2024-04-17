@@ -15,8 +15,8 @@ public class FlightService {
         this.technicalApiClient = technicalApiClient;
     }
 
-    public Mono<PageViewModel> getFlights(int page) {
-        return this.technicalApiClient.getFlights(page);
+    public Mono<PageViewModel> getFlights(int page, String sort) {
+        return this.technicalApiClient.getFlights(page, sort);
     }
     
     public Mono<FlightViewModel> createFlight(Mono<FlightViewModel> flight) {

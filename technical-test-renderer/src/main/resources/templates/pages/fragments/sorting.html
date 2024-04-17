@@ -1,0 +1,5 @@
+<th scope="col" th:fragment="sorting(field, label)">
+	<a th:href="@{/(page=${currentPage},sort=${field})}">
+		[[${label}]]
+	</a>
+</th>

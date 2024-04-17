@@ -16,8 +16,8 @@ public class FlightFacade {
         this.flightService = flightService;
     }
 
-    public Mono<PageViewModel> getFlights(int page) {
-        return this.flightService.getFlights(page);
+    public Mono<PageViewModel> getFlights(int page, String sort) {
+        return this.flightService.getFlights(page, sort);
     }
     
     public Mono<FlightViewModel> createFlight(Mono<FlightViewModel> flight) {

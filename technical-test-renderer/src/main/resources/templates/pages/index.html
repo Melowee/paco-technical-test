@@ -82,19 +82,20 @@
     <h2>Bienvenue sur notre site de recherche de vols</h2>
     <p>Commencez votre aventure en trouvant les meilleurs vols disponibles.</p>
     <!-- Ajoutez ici le formulaire de recherche de vols ou d'autres éléments pertinents -->
-    <ul>
+    
+    <ul>	
         <table>
             <tr>
-                <th scope="col">Départ de</th>
-                <th scope="col">Arrivée à</th>
-                <th scope="col">Prix</th>
-                <th scope="col">Heure de départ</th>
-                <th scope="col">Heure d'arrivée</th>
+                <th th:replace="pages/fragments/sorting :: sorting('origin', 'Départ à')"></th>
+                <th th:replace="pages/fragments/sorting :: sorting('destination', 'Arrivée à')"></th>
+                <th th:replace="pages/fragments/sorting :: sorting('price', 'Prix')"></th>
+                <th th:replace="pages/fragments/sorting :: sorting('departure', 'Heure de départ')"></th>
+                <th th:replace="pages/fragments/sorting :: sorting('arrival', 'Heure d\'arrivée')"></th>
                 <th scope="col">Photo</th>
             </tr>
-            <tr th:each="flight : ${page.content}">
-                <th th:text="${flight.origin.name}"></th>
-                <th th:text="${flight.destination.name}"></th>
+            <tr th:each="flight : ${flights}">
+                <th th:text="${flight.origin.iata + ' ' + flight.origin.name}"></th>
+                <th th:text="${flight.destination.iata + ' ' + flight.destination.name}"></th>
                 <th th:text="${flight.price}"></th>
                 <th th:text="${flight.departure}"></th>
                 <th th:text="${flight.arrival}"></th>
@@ -103,12 +104,12 @@
         </table>
     </ul>
     
-    <div th:if="${!page.first}">
-		<a th:href="@{/(page=${page.number - 1})}" > < Page précedente</a>
+    <div th:if="${!isFirstPage}">
+		<a th:replace="pages/fragments/paging :: paging(${currentPage} - 1, '< Page précédente')"></a>
 	</div>
 	<!-- page X sur X, goto page 1 / max-->
-	<div th:if="${!page.last}">
-		<a th:href="@{/(page=${page.number + 1})}" >  Page suivante ></a>
+	<div th:if="${!isLastPage}">
+		<a th:replace="pages/fragments/paging :: paging(${currentPage} + 1, 'Page suivante >')"></a>
 	</div>
 </section>
 

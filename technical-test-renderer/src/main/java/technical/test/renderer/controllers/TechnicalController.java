@@ -29,9 +29,25 @@ public class TechnicalController {
     private AirportFacade airportFacade;
 
     @GetMapping
-    public Mono<String> getMarketPlaceReturnCouponPage(final Model model, @RequestParam(value = "page", required = false, defaultValue = "0") int page) {
-        model.addAttribute("page", this.flightFacade.getFlights(page));
-        return Mono.just("pages/index");
+    public Mono<String> getMarketPlaceReturnCouponPage(final Model model, 
+    		@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+    		@RequestParam(value = "sort", required = false, defaultValue = "price") String sort) {    	
+    	return this.flightFacade.getFlights(page, sort).flatMap(pageViewModel -> {
+    		model.addAttribute("flights", pageViewModel.getContent());
+    		model.addAttribute("currentPage", pageViewModel.getNumber());
+    		model.addAttribute("totalElements", pageViewModel.getTotalElements());
+    		model.addAttribute("totalPages", pageViewModel.getTotalPages());
+    		model.addAttribute("pageSize", pageViewModel.getSize());
+    		model.addAttribute("sortField", pageViewModel.getSort().get(0).getProperty());
+    		model.addAttribute("sortDirection", pageViewModel.getSort().get(0).getDirection());
+    		model.addAttribute("isFirstPage", pageViewModel.isFirst());
+    		model.addAttribute("isLastPage", pageViewModel.isLast());
+    		return Mono.just("pages/index");
+    	});
+    	
+
+        
+        
     }
     
     @GetMapping("/create")
@@ -44,6 +60,6 @@ public class TechnicalController {
     @PostMapping("/create")
     public Mono<String> submitFlight(@ModelAttribute FlightViewModel flight, Model model) {
     	this.flightFacade.createFlight(Mono.just(flight)).subscribe();
-    	return getMarketPlaceReturnCouponPage(model, 0);
+    	return getMarketPlaceReturnCouponPage(model, 0, null);
     }
 }

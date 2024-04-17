@@ -13,4 +13,5 @@ public class PageViewModel {
 	private int totalPages;
 	private boolean first;
 	private boolean last;
+	private List<SortViewModel> sort;
 }
