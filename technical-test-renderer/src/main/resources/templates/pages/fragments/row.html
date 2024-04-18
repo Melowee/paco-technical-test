@@ -1,0 +1,18 @@
+<tr th:fragment="row(flight)" th:data-id="${flight.id}">
+
+	<th><button th:id="${flight.id}">Pin</button></th>
+	<th th:text="${flight.origin.iata + ' ' + flight.origin.name}"></th>
+	<th th:text="${flight.destination.iata + ' ' + flight.destination.name}"></th>
+	<th th:text="${flight.price}"></th>
+	<th th:text="${flight.departure}"></th>
+	<th th:text="${flight.arrival}"></th>
+	<th><img th:src="${flight.image}"></img></th>
+
+	<script th:inline="javascript">
+
+		document.getElementById(/*[[${flight.id}]]*/).addEventListener("click", function () {
+			togglePinned(/*[[${flight}]]*/)
+		})
+
+	</script>
+</tr>
