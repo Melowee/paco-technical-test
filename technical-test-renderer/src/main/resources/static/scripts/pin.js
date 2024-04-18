@@ -21,6 +21,14 @@ function updatePinned() {
 	pinnedFlights.forEach(flight => {
 		let parsedFlight = JSON.parse(flight)
 
+		const unpinButtonCell = document.createElement("th");
+		const unpinButton = document.createElement("button");
+		unpinButton.innerText = "Unpin"
+		unpinButton.addEventListener("click", function() {
+			togglePinned(parsedFlight)
+		})
+		unpinButtonCell.appendChild(unpinButton)
+
 		const originCell = document.createElement("th");
 		originCell.innerText = parsedFlight["origin"]["name"]
 
@@ -42,6 +50,7 @@ function updatePinned() {
 		imageCell.appendChild(img);
 
 		const newRow = document.createElement("tr");
+		newRow.appendChild(unpinButtonCell);
 		newRow.appendChild(originCell);
 		newRow.appendChild(destinationCell);
 		newRow.appendChild(priceCell);

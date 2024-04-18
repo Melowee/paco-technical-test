@@ -109,7 +109,8 @@
 				</div>
 			</table>
 		</ul>
-
+		
+		<a th:replace="pages/fragments/paging :: paging(0, '<< Début')"></a>
 		<div th:if="${!isFirstPage}">
 			<a th:replace="pages/fragments/paging :: paging(${currentPage} - 1, '< Page précédente')"></a>
 		</div>
@@ -117,6 +118,7 @@
 		<div th:if="${!isLastPage}">
 			<a th:replace="pages/fragments/paging :: paging(${currentPage} + 1, 'Page suivante >')"></a>
 		</div>
+		<a th:replace="pages/fragments/paging :: paging(${totalPages} - 1, 'Fin >>')"></a>
 	</section>
 
 	<footer>
